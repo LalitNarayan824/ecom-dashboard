@@ -1,4 +1,18 @@
-import { Calendar, ChevronUp, Home, Inbox, LogOut, Search, Settings, User } from "lucide-react";
+import {
+  Calendar,
+  ChevronUp,
+  Home,
+  Inbox,
+  LogOut,
+  Search,
+  Settings,
+  User,
+  Package,
+  PlusCircle,
+  Users,
+  ShoppingBag,
+  LineChart,
+} from "lucide-react";
 
 import {
   Sidebar,
@@ -11,8 +25,8 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarSeparator,
 } from "@/components/ui/sidebar";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,100 +36,119 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
 
-// Menu items.
-const items = [
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+// Organized Menu Groups
+const menuGroups = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
+    label: "Application",
+    items: [
+      { title: "Home", url: "/", icon: Home },
+      { title: "Inbox", url: "#", icon: Inbox },
+      { title: "Analytics", url: "/analytics", icon: LineChart },
+      { title: "Settings", url: "#", icon: Settings },
+    ],
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    label: "Products",
+    items: [
+      { title: "See All Products", url: "/products", icon: Package },
+      { title: "Add Product", url: "/products/add", icon: PlusCircle },
+    ],
   },
   {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
+    label: "Users",
+    items: [
+      { title: "See All Users", url: "/users", icon: Users },
+      { title: "Add User", url: "/users/add", icon: PlusCircle },
+    ],
   },
   {
-    title: "Search",
-    url: "#",
-    icon: Search,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
+    label: "Orders",
+    items: [
+      { title: "See All Orders", url: "/orders", icon: ShoppingBag },
+      { title: "Add Order", url: "/orders/add", icon: PlusCircle },
+    ],
   },
 ];
 
 function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader>
-        <div className="flex items-center justify-start gap-3 my-2 px-3">
-          <Avatar>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-        <span className="text-lg ">Lalit</span>
-        </div>
+      {/* ---------- Header ---------- */}
+      <SidebarHeader className="py-4">
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <div className="flex items-center gap-3 px-2">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>LF</AvatarFallback>
+              </Avatar>
+              <div className="flex flex-col">
+                <span className="text-sm font-semibold truncate leading-none">Lalit</span>
+                <span className="text-[10px] text-muted-foreground uppercase tracking-wider">Curator</span>
+              </div>
+            </div>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
-      <SidebarSeparator />
+
+      {/* ---------- Content ---------- */}
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        {menuGroups.map((group) => (
+          <SidebarGroup key={group.label}>
+            <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {group.items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild tooltip={item.title}>
+                      <a href={item.url}>
+                        <item.icon className="h-4 w-4" />
+                        <span>{item.title}</span>
+                      </a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        ))}
       </SidebarContent>
+
+      {/* ---------- Footer ---------- */}
       <SidebarFooter>
         <SidebarMenu>
-          <SidebarMenuItem >
-            <DropdownMenu >
-          <DropdownMenuTrigger asChild className="hover:cursor-pointer w-full" >
-            
-              <Button>
-                <User/> user <ChevronUp className="ml-auto"/>
-              </Button>
-            
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuGroup>
-              <DropdownMenuLabel className="">My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>
-                <User />
-                Profile
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Settings />
-                Settings
-              </DropdownMenuItem>
-              <DropdownMenuItem variant="destructive">
-                <LogOut />
-                Logout
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+          <SidebarMenuItem>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton>
+                  <User className="h-4 w-4" />
+                  <span>Account</span>
+                  <ChevronUp className="ml-auto h-4 w-4" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent side="top" align="end" className="w-48">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <Settings className="mr-2 h-4 w-4" />
+                    Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="text-red-600">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
