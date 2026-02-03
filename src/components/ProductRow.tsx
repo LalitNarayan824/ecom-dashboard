@@ -1,9 +1,8 @@
 "use client";
 
-import { MoreHorizontal, Edit3, Trash2, AlertCircle } from "lucide-react";
+import { MoreHorizontal, Edit3, Trash2, AlertCircle, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,8 +10,6 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
-
-// shadcn components you'll need to install/import
 import {
   Sheet,
   SheetContent,
@@ -34,131 +31,119 @@ import {
 } from "@/components/ui/alert-dialog";
 import EditProduct from "./EditProduct";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
-export const ProductRow = ({
-  id,
-  name,
-  latinName,
-  category,
-  stock,
-  price,
-}: any) => {
-
-  const router = useRouter();
-
-  const handleRoute = ()=>{
-    router.push(`/products/${id}`)
-  }
-
-
+export const ProductRow = ({ id, name, latinName, category, stock, price }: any) => {
   return (
-    
-      <TableRow onClick={()=>handleRoute()} className="group border-white/5 hover:bg-white/[0.02] hover:cursor-pointer">
-        <TableCell className="font-mono text-[11px] text-muted-foreground uppercase">
-          {id}
-        </TableCell>
+    <TableRow className="group border-border hover:bg-muted/50 transition-colors">
+      {/* ID Reference */}
+      <TableCell className="font-mono text-[10px] text-muted-foreground uppercase tracking-tight">
+        <Link href={`/products/${id}`} className="hover:text-primary flex items-center gap-1 transition-colors">
+          {id} <ArrowUpRight size={10} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+        </Link>
+      </TableCell>
 
-        <TableCell>
-          <div className="flex flex-col">
-            <span className="font-medium text-sm text-white/90">{name}</span>
-            <span className="text-[10px] italic text-muted-foreground uppercase tracking-wider">
-              {latinName}
-            </span>
-          </div>
-        </TableCell>
+      {/* Specimen Identity */}
+      <TableCell>
+        <div className="flex flex-col">
+          <span className="font-medium text-sm tracking-tight">{name}</span>
+          <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-tighter italic">
+            {latinName}
+          </span>
+        </div>
+      </TableCell>
 
-        <TableCell className="text-[11px] font-mono uppercase text-muted-foreground">
-          {category}
-        </TableCell>
-        <TableCell className="text-xs font-medium">{stock} Units</TableCell>
-        <TableCell className="text-right font-mono text-sm font-semibold">
-          Rs{price}
-        </TableCell>
+      {/* Classification */}
+      <TableCell className="text-[10px] font-mono uppercase text-muted-foreground">
+        {category}
+      </TableCell>
 
-        <TableCell className="text-right">
-          {/* We wrap the whole dropdown logic here */}
-          <AlertDialog>
-            <Sheet>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
+      {/* Inventory Status */}
+      <TableCell className="text-xs">
+        <span className={stock === 0 ? "text-destructive font-medium" : "text-foreground"}>
+          {stock} <span className="text-[10px] text-muted-foreground uppercase font-mono">Units</span>
+        </span>
+      </TableCell>
 
-                <DropdownMenuContent
-                  align="end"
-                  className="bg-[#0a0a0a] border-white/10"
-                >
-                  {/* TRIGGER EDIT SHEET */}
-                  <SheetTrigger asChild>
-                    <DropdownMenuItem className="text-xs gap-2">
-                      <Edit3 size={14} /> Edit Specimen
-                    </DropdownMenuItem>
-                  </SheetTrigger>
+      {/* Unit Value */}
+      <TableCell className="text-right font-mono text-sm font-semibold tracking-tighter">
+        ${price.toLocaleString()}
+      </TableCell>
 
-                  <DropdownMenuSeparator className="bg-white/5" />
+      {/* Actions */}
+      <TableCell className="text-right">
+        <AlertDialog>
+          <Sheet>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground">
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
 
-                  {/* TRIGGER DELETE PROMPT */}
-                  <AlertDialogTrigger asChild>
-                    <DropdownMenuItem className="text-xs gap-2 text-red-500 focus:text-red-500">
-                      <Trash2 size={14} /> Delete Entry
-                    </DropdownMenuItem>
-                  </AlertDialogTrigger>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <DropdownMenuContent align="end" className="bg-popover border-border">
+                <SheetTrigger asChild>
+                  <DropdownMenuItem className="text-xs font-mono uppercase gap-2 cursor-pointer">
+                    <Edit3 size={12} /> Edit_Specimen
+                  </DropdownMenuItem>
+                </SheetTrigger>
 
-              {/* ---------- EDIT SHEET CONTENT ---------- */}
-              <SheetContent className="bg-[#0a0a0a] border-l-white/10 text-white sm:max-w-md">
-                <SheetHeader>
-                  <SheetTitle className="font-mono uppercase text-[#ecec25]">
-                    Edit_Specimen
-                  </SheetTitle>
-                  <SheetDescription className="text-white/40">
-                    Update registry data for {id}. Changes are permanent.
-                  </SheetDescription>
-                </SheetHeader>
-                <div className="py-6 space-y-4">
-                  {/* Your Form Fields (Input, Select, etc.) would go here */}
-                  <EditProduct
-                    name={name}
-                    latinName={latinName}
-                    category={category}
-                    price={price}
-                    stock={stock}
-                  />
+                <DropdownMenuSeparator />
+
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem className="text-xs font-mono uppercase gap-2 text-destructive focus:text-destructive cursor-pointer">
+                    <Trash2 size={12} /> Purge_Entry
+                  </DropdownMenuItem>
+                </AlertDialogTrigger>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* EDIT SHEET */}
+            <SheetContent className="bg-popover border-l-border sm:max-w-md">
+              <SheetHeader className="space-y-1">
+                <SheetTitle className="font-mono uppercase tracking-widest text-sm">
+                  Edit_Specimen
+                </SheetTitle>
+                <SheetDescription className="text-xs">
+                  Update registry parameters for {id}. Changes are committed to the main archive.
+                </SheetDescription>
+              </SheetHeader>
+              <div className="py-8">
+                <EditProduct
+                  name={name}
+                  latinName={latinName}
+                  category={category}
+                  price={price}
+                  stock={stock}
+                />
+              </div>
+            </SheetContent>
+
+            {/* DELETE ALERT */}
+            <AlertDialogContent className="bg-popover border-border">
+              <AlertDialogHeader>
+                <div className="flex items-center gap-2 text-destructive mb-2">
+                  <AlertCircle size={18} />
+                  <AlertDialogTitle className="font-mono uppercase text-sm">
+                    Confirm_Purge
+                  </AlertDialogTitle>
                 </div>
-              </SheetContent>
-
-              {/* ---------- DELETE ALERT CONTENT ---------- */}
-              <AlertDialogContent className="bg-[#0a0a0a] border-white/10 text-white">
-                <AlertDialogHeader>
-                  <div className="flex items-center gap-2 text-red-500 mb-2">
-                    <AlertCircle size={20} />
-                    <AlertDialogTitle className="font-mono uppercase">
-                      Confirm_Deletion
-                    </AlertDialogTitle>
-                  </div>
-                  <AlertDialogDescription className="text-white/40">
-                    Are you sure you want to remove{" "}
-                    <span className="text-white font-medium">{name}</span> from
-                    the registry? This action cannot be undone.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel className="bg-transparent border-white/10 hover:bg-white/5 text-white">
-                    Cancel
-                  </AlertDialogCancel>
-                  <AlertDialogAction className="bg-red-600 hover:bg-red-700 text-white">
-                    Delete Specimen
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </Sheet>
-          </AlertDialog>
-        </TableCell>
-      </TableRow>
-    
+                <AlertDialogDescription className="text-xs leading-relaxed">
+                  Are you sure you want to remove <span className="text-foreground font-medium">{name}</span> from
+                  the registry? This process is irreversible.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter className="mt-4">
+                <AlertDialogCancel className="font-mono text-[10px] uppercase h-9">
+                  Cancel
+                </AlertDialogCancel>
+                <AlertDialogAction className="bg-destructive text-destructive-foreground hover:bg-destructive/90 font-mono text-[10px] uppercase h-9">
+                  Confirm_Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </Sheet>
+        </AlertDialog>
+      </TableCell>
+    </TableRow>
   );
 };

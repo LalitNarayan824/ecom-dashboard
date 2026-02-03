@@ -11,140 +11,147 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Upload, ChevronLeft, Save, X } from "lucide-react"
+import { Upload, ChevronLeft, Save, Database, Trash2 } from "lucide-react"
 import Link from "next/link"
+import { Badge } from "@/components/ui/badge"
 
 export default function AddProductPage() {
   return (
     <div className="w-full min-h-screen bg-background text-foreground">
-      {/* 1. STICKY TOP BAR: Actions are always visible */}
-      <div className="sticky top-0 z-10 w-full border-b border-white/10 bg-black/50 backdrop-blur-md px-6 py-4">
+      {/* 1. TOP BAR: Consistent with Industrial Theme */}
+      <div className="sticky top-0 z-20 w-full border-b border-border bg-background/50 backdrop-blur-md px-8 py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link href="/curator/products" className="p-2 hover:bg-white/5 rounded-full transition-colors">
-              <ChevronLeft size={20} />
+          <div className="flex items-center gap-6">
+            <Link href="/curator/products" className="p-2 hover:bg-muted rounded-full transition-colors">
+              <ChevronLeft size={20} className="text-muted-foreground" />
             </Link>
             <div>
-              <h1 className="text-xl font-medium leading-none">New Product</h1>
-              <p className="text-xs text-muted-foreground mt-1">Products / Create</p>
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Registry_Action</span>
+                <span className="text-[10px] font-mono text-primary font-bold uppercase flex items-center gap-1">
+                  <Database size={10} /> Initialize_New_Node
+                </span>
+              </div>
+              <h1 className="text-xl font-medium tracking-tight">Create_New_Specimen</h1>
             </div>
           </div>
           
           <div className="flex items-center gap-3">
-            <Button variant="ghost" className="text-sm">Discard</Button>
-            <Button className="bg-emerald-600 hover:bg-emerald-700 text-white gap-2 px-6">
-              <Save size={16} /> Save Specimen
+            <Button variant="ghost" size="sm" className="font-mono text-[10px] uppercase h-8 text-muted-foreground hover:text-destructive">
+              Discard_Draft
+            </Button>
+            <Button className="bg-primary text-primary-foreground font-mono text-[10px] uppercase h-8 px-6 rounded-none gap-2">
+              <Save size={14} /> Commit_to_Registry
             </Button>
           </div>
         </div>
       </div>
 
-      {/* 2. TWO-COLUMN FULL WIDTH CONTENT */}
-      <form className="grid grid-cols-1 lg:grid-cols-12 w-full">
+      {/* 2. TWO-COLUMN CONTENT GRID */}
+      <form className="grid grid-cols-1 lg:grid-cols-12 w-full min-h-[calc(100vh-65px)]">
         
-        {/* LEFT SECTION (Main Content - 65% width) */}
-        <div className="lg:col-span-8 p-8 space-y-8 border-r border-white/10">
+        {/* LEFT SECTION (Main Narrative - 8 Cols) */}
+        <div className="lg:col-span-8 p-12 space-y-16 border-r border-border">
           
-          {/* Section: Basic Details */}
-          <div className="space-y-6">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-emerald-500">General Information</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Section: General Information */}
+          <div className="space-y-8">
+            <h2 className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground">Narrative_Registration</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-2">
-                <Label htmlFor="name">Product Name</Label>
-                <Input id="name" placeholder="e.g. Obsidian Tulip" className="h-11" />
+                <Label htmlFor="name" className="text-[10px] uppercase font-mono text-muted-foreground tracking-widest">Specimen_Name</Label>
+                <Input id="name" placeholder="e.g. Obsidian Tulip" className="rounded-none border-border h-11 font-medium bg-transparent" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="latin">Scientific Name</Label>
-                <Input id="latin" placeholder="e.g. Tulipa nightshade" className="h-11 italic" />
+                <Label htmlFor="latin" className="text-[10px] uppercase font-mono text-muted-foreground tracking-widest">Scientific_Name</Label>
+                <Input id="latin" placeholder="e.g. Tulipa nightshade" className="rounded-none border-border h-11 italic font-mono text-xs bg-transparent" />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">Product Description</Label>
+              <Label htmlFor="description" className="text-[10px] uppercase font-mono text-muted-foreground tracking-widest">Archive_Notes_Description</Label>
               <Textarea 
                 id="description" 
-                placeholder="Describe the specimen's unique characteristics..." 
-                className="min-h-[250px] text-base leading-relaxed" 
+                placeholder="Detailed specimen characteristics..." 
+                className="rounded-none border-border min-h-[300px] text-base leading-relaxed resize-none bg-transparent" 
               />
             </div>
           </div>
 
-          {/* Section: Media */}
-          <div className="space-y-6 pt-4">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-emerald-500">Gallery Assets</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {/* The Upload Trigger */}
-              <div className="aspect-[3/4] border-2 border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center text-muted-foreground hover:bg-white/5 transition-all cursor-pointer group">
-                <Upload size={24} className="group-hover:-translate-y-1 transition-transform" />
-                <span className="text-[10px] mt-2 font-medium">Add Image</span>
+          {/* Section: Media Assets */}
+          <div className="space-y-8">
+            <h2 className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground">Visual_Archive_Assets</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+              {/* Upload Trigger */}
+              <div className="aspect-[4/5] border border-dashed border-border flex flex-col items-center justify-center text-muted-foreground hover:bg-muted/50 transition-all cursor-pointer group">
+                <Upload size={20} className="group-hover:-translate-y-1 transition-transform" />
+                <span className="text-[9px] mt-3 font-mono uppercase tracking-tighter">Add_Image</span>
               </div>
               
-              {/* Placeholder for uploaded image slots */}
-              <div className="aspect-[3/4] bg-white/5 rounded-xl border border-white/10 animate-pulse"></div>
-              <div className="aspect-[3/4] bg-white/5 rounded-xl border border-white/10 animate-pulse"></div>
+              {/* Image Slots */}
+              {[1, 2].map((i) => (
+                <div key={i} className="aspect-[4/5] bg-muted/20 border border-border relative group">
+                  <div className="absolute inset-0 flex items-center justify-center text-[10px] font-mono uppercase text-muted-foreground/30 italic">
+                    Node_0{i}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* RIGHT SECTION (Settings & Logistics - 35% width) */}
-        <div className="lg:col-span-4 p-8 bg-white/[0.02] space-y-10">
+        {/* RIGHT SECTION (Logistics & Financials - 4 Cols) */}
+        <div className="lg:col-span-4 p-12 bg-muted/5 space-y-12 h-full">
           
-          {/* Organization */}
-          <div className="space-y-6">
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-emerald-500">Inventory Setup</h2>
+          {/* Inventory Controls */}
+          <div className="space-y-8">
+            <h2 className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground">Inventory_Controls</h2>
             
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="space-y-2">
-                <Label>Category</Label>
+                <Label className="text-[10px] uppercase font-mono text-muted-foreground tracking-widest">Classification_Class</Label>
                 <Select>
-                  <SelectTrigger className="h-11">
-                    <SelectValue placeholder="Select classification" />
+                  <SelectTrigger className="rounded-none border-border h-11 uppercase font-mono text-[11px]">
+                    <SelectValue placeholder="Select_Category" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="flowers">Flowers</SelectItem>
-                    <SelectItem value="plants">Plants</SelectItem>
-                    <SelectItem value="pottery">Pottery</SelectItem>
-                    <SelectItem value="candles">Candles</SelectItem>
+                  <SelectContent className="bg-popover border-border">
+                    <SelectItem value="flowers" className="text-xs uppercase font-mono">Flowers</SelectItem>
+                    <SelectItem value="plants" className="text-xs uppercase font-mono">Plants</SelectItem>
+                    <SelectItem value="pottery" className="text-xs uppercase font-mono">Pottery</SelectItem>
+                    <SelectItem value="candles" className="text-xs uppercase font-mono">Candles</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="price">Price ($)</Label>
-                  <Input id="price" type="number" placeholder="0.00" className="h-11" />
+                  <Label htmlFor="price" className="text-[10px] uppercase font-mono text-muted-foreground tracking-widest">Unit_Value ($)</Label>
+                  <Input id="price" type="number" placeholder="0.00" className="rounded-none border-border h-11 font-mono text-sm" />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="stock">Initial Stock</Label>
-                  <Input id="stock" type="number" placeholder="0" className="h-11" />
+                  <Label htmlFor="stock" className="text-[10px] uppercase font-mono text-muted-foreground tracking-widest">Initial_Stock</Label>
+                  <Input id="stock" type="number" placeholder="0" className="rounded-none border-border h-11 font-mono text-sm" />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Meta Information / Status */}
-          <div className="space-y-6 pt-8 border-t border-white/10">
-             <h2 className="text-sm font-semibold uppercase tracking-wider text-emerald-500">Visibility</h2>
-             <div className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10">
-               <span className="text-sm">Published Status</span>
-               <Badge className="bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/10 border-none">Active</Badge>
+          {/* Visibility Section */}
+          <div className="space-y-8 pt-8 border-t border-border">
+             <h2 className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground">Registry_Status</h2>
+             <div className="p-4 border border-border rounded-none bg-background flex items-center justify-between">
+               <span className="text-[10px] font-mono uppercase text-muted-foreground tracking-tighter">Immediate_Publish</span>
+               <Badge variant="outline" className="border-emerald-500/50 text-emerald-500 font-mono text-[10px] uppercase font-normal py-0 rounded-none border-t-0 border-r-0 border-b-0 border-l-2">Live</Badge>
              </div>
-             <p className="text-[11px] text-muted-foreground leading-normal">
-               Note: Once saved, this specimen will immediately appear in the public Shop Archive under the selected category.
-             </p>
+             <div className="p-4 bg-muted/30 border border-border rounded-none">
+              <p className="text-[9px] text-muted-foreground font-mono uppercase leading-relaxed tracking-tighter">
+                System Note: Saving this record commits the specimen to the public archive. Ensure all visual assets are verified.
+              </p>
+             </div>
           </div>
 
         </div>
       </form>
     </div>
-  )
-}
-
-// Simple Badge component if not using shadcn/badge
-function Badge({ children, className }: { children: React.ReactNode, className: string }) {
-  return (
-    <span className={`px-2 py-1 rounded text-[10px] font-bold ${className}`}>
-      {children}
-    </span>
   )
 }
