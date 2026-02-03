@@ -1,3 +1,5 @@
+
+import { CategorySales } from "@/components/CategorySales";
 import MetricCards from "@/components/MetricCards";
 import RecentOrders from "@/components/RecentOrders";
 import RecentSalesChart from "@/components/RecentSalesChart";
@@ -18,6 +20,7 @@ export default function Home() {
 
       {/* Bottom Section */}
       <RecentSalesChart/>
+      <CategorySales/>
     </div>
   );
 }

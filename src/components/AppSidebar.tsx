@@ -68,7 +68,7 @@ const menuGroups = [
     label: "Orders",
     items: [
       { title: "See All Orders", url: "/orders", icon: ShoppingBag },
-      { title: "Add Order", url: "/orders/add", icon: PlusCircle },
+      
     ],
   },
 ];
