@@ -75,10 +75,10 @@ export const CategorySales = () => {
                     return (
                       <div className="bg-popover border border-border px-3 py-2 rounded shadow-sm">
                         <p className="text-[10px] font-mono uppercase text-muted-foreground mb-1">
-                          {payload[0].payload.category}
+                          {payload[0]?.payload?.category}
                         </p>
                         <p className="text-xs font-mono font-bold">
-                          ${payload[0].value?.toLocaleString()}
+                          ${payload[0]?.value?.toLocaleString()}
                         </p>
                       </div>
                     );
